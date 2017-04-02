@@ -29,16 +29,13 @@ int main() {
 }
 ```
 
-Source: https://www.gnu.org/software/libc/manual/html_node/Sleeping.html
-
 ```bash
-[koffiedrinker@ctf bag_of_tricks]$ !gcc
-gcc -o ld_preload ld_preload.c 
+[koffiedrinker@ctf bag_of_tricks]$ gcc -o ld_preload ld_preload.c 
 [koffiedrinker@ctf bag_of_tricks]$ ./ld_preload 
 Zzzzzzzzzzzzzzzzzzzzzzzz^C
 ```
 
-Which slowly prints out a string of 'z'. But we don't want to wait 100 seconds for the program to finish. We can preload our own sleep() function to bypass the real sleep().
+Which slowly prints out a string of 'Zzzzzz...'. But we don't want to wait 100 seconds for the program to finish. We can preload our own sleep() function to bypass the real sleep().
 
 ```c
 unsigned int sleep(unsigned int seconds) {}
@@ -58,6 +55,10 @@ Zzzzzzzz^C
 [koffiedrinker@ctf bag_of_tricks]$ LD_PRELOAD=./yourLibrary.so ./ld_preload 
 Zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 ```
+
+## Small print
+
+The LD_PRELOAD trick does not work if the real UID and the effective UID are different. The loader will not take the LD_PRELOAD environment variable into account int this case. So basically it does not work for setuid binaries.
 
 ## CTF Examples
 
