@@ -1,4 +1,4 @@
-# LD_PRELOAD (ELF) trick
+# LD_PRELOAD trick
 
 When the "loader" is mapped into memory by the kernel and control is transferred from the kernel to the loader (something like `ld-linux-x86-64.so.2`), the loader checks the `LD_PRELOAD` environment variable and checks the DYNAMIC segment for binaries to load. If you create a library that contains functions with the same function signature as the original libc functions then you have effectively overwritten that function.
 
