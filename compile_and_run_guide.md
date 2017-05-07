@@ -5,6 +5,19 @@
 * `-m32`: Compile as 32-bit executable
 * `-fno-stack-protector`: No stack canaries
 
+### Enabling/Disabling ASLR
+
+Non-persistent:
+```
+# echo 2 > /proc/sys/kernel/randomize_va_space # Enabling
+# echo 0 > /proc/sys/kernel/randomize_va_space # Disabling
+```
+
+Persistent:
+```
+# echo 'kernel.randomize_va_space = 2' > /etc/sysctl.d/01-disable-aslr.conf # Enabling
+# echo 'kernel.randomize_va_space = 0' > /etc/sysctl.d/01-disable-aslr.conf # Disabling
+```
 
 ### Socat
 
