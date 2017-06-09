@@ -49,6 +49,8 @@ service ctf_challenge
         protocol        = tcp # TCP...
         user            = ctf_chall_user # Our user which will run the executable
         wait            = no # If yes, then only allow 1 connection and let everyone else wait.
+        server          = /path/to/binary # Where's your binary at
+
 }
 ```
 Source: https://en.wikipedia.org/wiki/Xinetd
@@ -69,3 +71,5 @@ cd $dir; ulimit -u 200
 exec timeout -s9 5m /full/path/to/executable
 ```
 Source: Kudos to picoCTF people from which I got this little bash script. :)
+
+To get everything working, append the name of the service ('ctf_challenge') and the port to `/etc/services`. Then restart xinetd.
